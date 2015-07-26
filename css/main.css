@@ -1,0 +1,41 @@
+body {
+    padding: 0px;
+}
+
+.left-part {
+    float: left;
+    width: 30%;
+    background-color: #114a54;
+    height: 800px;
+}
+
+.divider {
+    width: 1px;
+    background-color: #2C2C2C;
+    float: left;
+    height: 800px;
+}
+
+.right-part {
+    width: 60%;
+}
+
+.device-img-container {
+    width: 38px;
+    height: 38px;
+    float: left;
+}
+.device-img {
+    width: 28px;
+    height: 28px;
+}
+
+.device-name {
+    padding-top: 4px;
+    padding-left: 6px;
+}
+
+.device-item {
+    height: 42px;
+}
+

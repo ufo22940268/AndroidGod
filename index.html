@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script>
+		var adb = require('./adb');
+
+		function getDeviceElem(device) {
+			var deviceElem = document.createElement("div");
+			deviceElem.setAttribute("class", "device-item");
+
+
+			var imgDiv = document.createElement("div")
+			imgDiv.setAttribute("class", "device-img-container")
+			var imgElem = document.createElement("img");
+			var icon = device.type == 'emulator' ? "img/ic_desktop_mac_black_48dp_2x.png" : "img/ic_phone_android_black_48dp_2x.png";
+			imgElem.setAttribute("src", icon);
+			imgElem.setAttribute("class", "device-img");
+			imgDiv.appendChild(imgElem);
+			deviceElem.appendChild(imgDiv);
+
+			var nameElem = document.createElement("div");
+			nameElem.innerText = device.name;
+			nameElem.setAttribute("class", "device-name");
+			deviceElem.appendChild(nameElem);
+
+			return deviceElem;
+		}
+
+		adb.getDevices().then(function (devices) {
+			var leftPart = document.getElementsByClassName('left-part').item(0);
+			devices.forEach(function (device) {
+				leftPart.appendChild(getDeviceElem(device));
+			})
+		})
+	</script>
+	<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div class="left-part">
+</div>
+
+<div class="divider">
+</div>
+
+<div class="right-part">
+</div>
+</body>
+</html>
