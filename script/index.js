@@ -1,19 +1,26 @@
-var adb = require('./adb');
+var ipc = require('ipc')
 
-adb.getDevices().then(function (devices) {
+ipc.send('getDevices')
+ipc.on('getDevices-reply', function (devices) {
+    onFulfilled(devices);
+})
+
+var onFulfilled = function (devices) {
     var leftPart = document.getElementsByClassName('left-part').item(0);
 
     var activeIndex = 0;
     var leftRactive = new Ractive({
         el: '#left-part',
         template: '#left-template',
-        data: {devices: devices.map(function (t, index) {
-            return {
-                deviceName: t.name,
-                imageSrc: t.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png",
-                active: activeIndex == index
-            }
-        })}
+        data: {
+            devices: devices.map(function (t, index) {
+                return {
+                    deviceName: t.name,
+                    imageSrc: t.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png",
+                    active: activeIndex == index
+                }
+            })
+        }
     });
 
     var rightRactive = new Ractive({
@@ -25,12 +32,12 @@ adb.getDevices().then(function (devices) {
     var dropAreaLabel = document.getElementById("drop-area-label");
 
     //Disable document drop event
-    document.addEventListener('drop', function(e) {
+    document.addEventListener('drop', function (e) {
         e.preventDefault();
         e.stopPropagation();
     });
 
-    document.addEventListener('dragover', function(e) {
+    document.addEventListener('dragover', function (e) {
         e.preventDefault();
         e.stopPropagation();
     });
@@ -43,5 +50,6 @@ adb.getDevices().then(function (devices) {
         }, 3000);
         e.preventDefault();
     }
-})
+};
+//adb.getDevices().then(onFulfilled)
 
