@@ -3,21 +3,21 @@ body {
     margin: 0;
 }
 
-.left-part {
+#left-part {
     float: left;
     width: 30%;
     background-color: #114a54;
-    height: 800px;
+    height: 600px;
 }
 
 .divider {
     width: 1px;
     background-color: #2C2C2C;
     float: left;
-    height: 800px;
+    height: 600px;
 }
 
-.right-part {
+#right-part {
     width: 60%;
 }
 
@@ -44,6 +44,6 @@ body {
 
 .device-item {
     height: 42px;
-    padding: 8px;
+    padding: 23px 8px 13px 8px;
 }
 

@@ -1,44 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script>
-		var adb = require('./adb');
+    <script src="bower_components/ractive/ractive.min.js"></script>
 
-		function getDeviceElem(device) {
-			var deviceElem = document.createElement("div");
-			deviceElem.setAttribute("class", "device-item active");
+    <script id="left-template" type="text/ractive">
+    {{#devices:i}}
+        <div class="device-item {{#if active}}active{{/if}}">
+            <div class="device-img-container">
+                <img src="{{imageSrc}}" class="device-img">
+            </div>
+            <div class="device-name">{{deviceName}}</div>
+        </div>
+    {{/devices}}
 
-			var imgDiv = document.createElement("div")
-			imgDiv.setAttribute("class", "device-img-container")
-			var imgElem = document.createElement("img");
-			var icon = device.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png";
-			imgElem.setAttribute("src", icon);
-			imgElem.setAttribute("class", "device-img");
-			imgDiv.appendChild(imgElem);
-			deviceElem.appendChild(imgDiv);
+    </script>
 
-			var nameElem = document.createElement("div");
-			nameElem.innerText = device.name;
-			nameElem.setAttribute("class", "device-name");
-			deviceElem.appendChild(nameElem);
+    <script id="right-template" type="text/ractive">
+		<p>Hello {{name}}</p>
 
-			return deviceElem;
-		}
+    </script>
 
-		adb.getDevices().then(function (devices) {
-			var leftPart = document.getElementsByClassName('left-part').item(0);
-			devices.forEach(function (device) {
-				leftPart.appendChild(getDeviceElem(device));
-			})
-		})
-	</script>
-	<link rel="stylesheet" href="css/main.css"/>
+    <script src="script/index.js"></script>
+
+    <link rel="stylesheet" href="css/main.css"/>
+
 </head>
 <body>
-<div class="left-part">
+<div id="left-part">
 </div>
 
-<div class="right-part">
+<div id="right-part">
 </div>
+
 </body>
 </html>
