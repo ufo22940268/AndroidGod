@@ -57,3 +57,15 @@ body {
     border: 18px dashed #ccc;
     margin: 40px auto auto auto;
 }
+
+#drop-area:hover {
+    border-color: green;
+}
+
+#drop-area-label {
+    display: block;
+    color: #555555;
+    font: 2em bold;
+    text-align: center;
+    line-height: 300px;
+}

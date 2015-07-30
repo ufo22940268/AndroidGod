@@ -1,0 +1,20 @@
+{
+  "name": "AndroidGod",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ufo22940268/AndroidGod",
+  "authors": [
+    "ufo22940268 <ufo22940268@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "ractive-events-hover": "~0.1.1",
+    "ractive": "~0.7.3"
+  }
+}

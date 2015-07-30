@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" href="css/main.css"/>
+
+</head>
+<body>
+<div>
+    <div id="left-part"></div>
+    <div id="right-part"></div>
+
     <script src="bower_components/ractive/ractive.min.js"></script>
 
     <script id="left-template" type="text/ractive">
@@ -17,19 +25,12 @@
 
     <script id="right-template" type="text/ractive">
         <div id="drop-area">
+            <span id="drop-area-label">Drop to install</span>
         </div>
-
     </script>
 
     <script src="script/index.js"></script>
 
-    <link rel="stylesheet" href="css/main.css"/>
-
-</head>
-<body>
-<div>
-    <div id="left-part"></div>
-    <div id="right-part"></div>
 </div>
 </body>
 </html>
