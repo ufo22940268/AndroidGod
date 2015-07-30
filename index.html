@@ -4,20 +4,19 @@
     <script src="bower_components/ractive/ractive.min.js"></script>
 
     <script id="left-template" type="text/ractive">
-    {{#devices:i}}
+        {{#devices:i}}
         <div class="device-item {{#if active}}active{{/if}}">
             <div class="device-img-container">
                 <img src="{{imageSrc}}" class="device-img">
             </div>
             <div class="device-name">{{deviceName}}</div>
         </div>
-    {{/devices}}
-
+        {{/devices}}
     </script>
 
     <script id="right-template" type="text/ractive">
-		<p>Hello {{name}}</p>
-
+        <id id="drop-area">
+        </id>
     </script>
 
     <script src="script/index.js"></script>

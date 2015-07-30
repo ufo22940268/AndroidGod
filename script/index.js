@@ -15,5 +15,10 @@ adb.getDevices().then(function (devices) {
             }
         })}
     });
+
+    var rightRactive = new Ractive({
+        el: '#right-part',
+        template: '#right-template'
+    })
 })
 
