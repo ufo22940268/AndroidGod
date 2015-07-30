@@ -36,6 +36,11 @@ adb.getDevices().then(function (devices) {
     });
 
     dropArea.ondrop = function (e) {
+        console.log("ondrop")
+        dropAreaLabel.innerText = "Installing...";
+        setTimeout(function () {
+            dropAreaLabel.innerText = "Installed";
+        }, 3000);
         e.preventDefault();
     }
 })
