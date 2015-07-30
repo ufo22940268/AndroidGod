@@ -12,11 +12,13 @@
             <div class="device-name">{{deviceName}}</div>
         </div>
         {{/devices}}
+
     </script>
 
     <script id="right-template" type="text/ractive">
-        <id id="drop-area">
-        </id>
+        <div id="drop-area">
+        </div>
+
     </script>
 
     <script src="script/index.js"></script>
@@ -25,11 +27,9 @@
 
 </head>
 <body>
-<div id="left-part">
+<div>
+    <div id="left-part"></div>
+    <div id="right-part"></div>
 </div>
-
-<div id="right-part">
-</div>
-
 </body>
 </html>
