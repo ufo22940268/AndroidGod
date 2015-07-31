@@ -12,7 +12,6 @@
     "bluebird": "^2.9.34",
     "chai": "^3.2.0",
     "electron-debug": "^0.1.1",
-    "material-design-icons": "^2.0.0"
   },
   "devDependencies": {
     "electron-prebuilt": "^0.30.1"
