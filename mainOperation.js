@@ -22,7 +22,15 @@ Operation.prototype.register = function () {
     })
 
     ipc.on('installApk', function (event, device, apkFile) {
-        adb.install(device, apkFile);
+        adb.install(device, apkFile)
+            .then(function (stdout) {
+                event.sender.send("installApk-reply", {});
+            })
+            .catch(function (err) {
+                if (err) {
+                    event.sender.send("installApk-reply", { err: err });
+                }
+            });
     })
 }
 

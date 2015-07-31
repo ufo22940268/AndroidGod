@@ -1,18 +1,42 @@
 var ipc = require('ipc')
+var adb = require('./adb');
+
 
 ipc.send('getDevices')
+
+var leftRactive = new Ractive({
+    el: '#left-part',
+    template: '#left-template',
+});
+
+var rightRactive = new Ractive({
+    el: '#right-part',
+    template: '#right-template'
+})
+
+
+var dropAreaLabel = document.getElementById("drop-area-label");
 ipc.on('getDevices-reply', function (devices) {
     onHandleDevices(devices);
 })
 
+function initDropArea() {
+    dropAreaLabel.innerHTML = "Drop to install";
+}
+ipc.on('installApk-reply', function (result) {
+    console.log("result = " + JSON.stringify(result))
+    if (result.err) {
+        alert(result.err);
+        initDropArea();
+    } else {
+        dropAreaLabel.innerText = "Success";
+    }
+})
+
 var onHandleDevices = function (devices) {
     var leftPart = document.getElementsByClassName('left-part').item(0);
-
     var activeIndex = 0;
-    var leftRactive = new Ractive({
-        el: '#left-part',
-        template: '#left-template',
-        data: {
+    leftRactive.set({
             devices: devices.map(function (t, index) {
                 return {
                     deviceName: t.name,
@@ -20,16 +44,9 @@ var onHandleDevices = function (devices) {
                     active: activeIndex == index
                 }
             })
-        }
-    });
-
-    var rightRactive = new Ractive({
-        el: '#right-part',
-        template: '#right-template'
-    })
+        });
 
     var dropArea = document.getElementById("drop-area");
-    var dropAreaLabel = document.getElementById("drop-area-label");
 
     //Disable document drop event
     document.addEventListener('drop', function (e) {
@@ -44,12 +61,14 @@ var onHandleDevices = function (devices) {
 
 
     dropArea.ondrop = function (e) {
-        dropAreaLabel.innerText = "Installing...";
-        requestInstall(devices[activeIndex], e.dataTransfer.files[0]);
-        //setTimeout(function () {
-        //    dropAreaLabel.innerText = "Installed";
-        //}, 3000);
         e.preventDefault();
+        var file = e.dataTransfer.files[0];
+        if (adb.isApkFile(file.name)) {
+            dropAreaLabel.innerText = "Installing...";
+            requestInstall(devices[activeIndex], file);
+        } else {
+            alert("File type incorrect");
+        }
     }
 };
 

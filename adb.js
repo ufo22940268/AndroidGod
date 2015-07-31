@@ -23,13 +23,13 @@ module.exports = {
                     fullfill(stdout);
                 }
             })
-        })
-            .then(function (stdout) {
+        }).then(function (stdout) {
                 var lines = stdout.split('\n').filter(function (line) {
                     return /\w+/.test(line);
                 });
                 return Promise.resolve(lines.slice(1)).map(self.parseDevice);
-            })
+            }
+        )
     },
 
     buildInstallCmd: function (device, apkFile) {
@@ -39,9 +39,16 @@ module.exports = {
     install: function (device, apkFile) {
         var buildInstallCmd = this.buildInstallCmd(device, apkFile);
         console.log("buildInstallCmd = " + buildInstallCmd)
-        childProcess.exec(buildInstallCmd, function (err, stdout, stderr) {
-            console.log("err = " + err);
-            console.log("stdout = " + stdout);
-        })
+        return childProcess.execAsync(buildInstallCmd)
+            .then(function (stdout, stderr) {
+                if (stderr) {
+                    throw stderr;
+                }
+                return stdout;
+            })
+    },
+
+    isApkFile: function (fileName) {
+        return fileName.match(/\.apk$/);
     }
 }
