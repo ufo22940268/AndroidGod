@@ -23,6 +23,12 @@ Operation.prototype.register = function () {
 
     ipc.on('installApk', function (event, device, apkFile) {
         adb.install(device, apkFile)
+            .then(function () {
+                return adb.aaptParseInfo(apkFile)
+            })
+            .then(function (info) {
+                return adb.launchApp(device, info.package, info.activity)
+            })
             .then(function (stdout) {
                 event.sender.send("installApk-reply", {});
             })

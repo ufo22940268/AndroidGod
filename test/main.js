@@ -5,7 +5,7 @@
 
 var adb = require('../adb');
 
-describe('Test adb', function () {
+describe('Test', function () {
 
     it("Should get devices", function () {
        return adb.getDevices().then(function (devices) {
