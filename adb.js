@@ -7,6 +7,8 @@ var Promise = require('bluebird');
 var childProcess = Promise.promisifyAll(require('child_process'));
 var Device = require('./device');
 
+var ADB_PATH = "tools/adb"
+
 module.exports = {
 
     parseDevice: function (line) {
@@ -16,7 +18,7 @@ module.exports = {
     getDevices: function () {
         var self = this;
         return new Promise(function (fullfill, reject) {
-            childProcess.exec('adb devices', function (err, stdout, stderr) {
+            childProcess.exec(ADB_PATH + ' devices', function (err, stdout, stderr) {
                 if (err) {
                     reject(stderr);
                 } else {
@@ -33,7 +35,7 @@ module.exports = {
     },
 
     buildInstallCmd: function (device, apkFile) {
-        return "adb -s " + device.name + " install -r " + apkFile;
+        return ADB_PATH + " -s " + device.name + " install -r " + apkFile;
     },
 
     install: function (device, apkFile) {
