@@ -42,22 +42,21 @@ var onHandleDevices = function (devices) {
         e.stopPropagation();
     });
 
+
     dropArea.ondrop = function (e) {
-        console.log("ondrop " + e.dataTransfer.files[0].name);
         dropAreaLabel.innerText = "Installing...";
-        readFile(e.dataTransfer.files[0]);
-        setTimeout(function () {
-            dropAreaLabel.innerText = "Installed";
-        }, 3000);
+        requestInstall(devices[activeIndex], e.dataTransfer.files[0]);
+        //setTimeout(function () {
+        //    dropAreaLabel.innerText = "Installed";
+        //}, 3000);
         e.preventDefault();
     }
 };
 
-function readFile(file) {
+function requestInstall(device, file) {
     var reader = new FileReader();
     reader.onload = function (event) {
-        var result = event.target.result;
-        ipc.send('installApk', file.name, result);
+        ipc.send('installApk', device, file.path);
     };
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
 }

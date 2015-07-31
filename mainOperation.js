@@ -21,15 +21,8 @@ Operation.prototype.register = function () {
         })
     })
 
-    ipc.on('installApk', function (event, fileName, fileContent) {
-        fs.openAsync(path.join(TMP_PATH, fileName), 'w')
-            .then(function (fd) {
-                return fs.writeAsync(fd, fileContent);
-            }).then(function () {
-                console.log("Write finished");
-            }).catch(function (err) {
-                console.log("err:" + err);
-            })
+    ipc.on('installApk', function (event, device, apkFile) {
+        adb.install(device, apkFile);
     })
 }
 

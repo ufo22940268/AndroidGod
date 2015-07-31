@@ -3,14 +3,14 @@
  */
 "use strict";
 
-var childProcess = require('child_process');
 var Promise = require('bluebird');
+var childProcess = Promise.promisifyAll(require('child_process'));
 var Device = require('./device');
 
 module.exports = {
 
     parseDevice: function (line) {
-        return new Device(/([\w|\.]+)/.exec(line)[1]);
+        return new Device(/([\w|\.|:]+)/.exec(line)[1]);
     },
 
     getDevices: function () {
@@ -30,8 +30,18 @@ module.exports = {
                 });
                 return Promise.resolve(lines.slice(1)).map(self.parseDevice);
             })
+    },
+
+    buildInstallCmd: function (device, apkFile) {
+        return "adb -s " + device.name + " install -r " + apkFile;
+    },
+
+    install: function (device, apkFile) {
+        var buildInstallCmd = this.buildInstallCmd(device, apkFile);
+        console.log("buildInstallCmd = " + buildInstallCmd)
+        childProcess.exec(buildInstallCmd, function (err, stdout, stderr) {
+            console.log("err = " + err);
+            console.log("stdout = " + stdout);
+        })
     }
 }
-
-
-
