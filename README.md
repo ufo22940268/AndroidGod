@@ -9,7 +9,8 @@ Because we have so many android devices. if we want to install apk or take a scr
 ![](./art/main.png)
 
 #Download
-    
+
+You can download from [release](https://github.com/ufo22940268/AndroidGod/releases/tag/0.1.0) page
     
 #TODO
 
