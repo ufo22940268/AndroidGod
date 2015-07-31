@@ -6,9 +6,10 @@
 var Promise = require('bluebird');
 var childProcess = Promise.promisifyAll(require('child_process'));
 var Device = require('./device');
+var path = require('path');
 
-var ADB_PATH = "tools/adb"
-var AAPT_PATH = "tools/aapt"
+var ADB_PATH = path.join(__dirname, "tools/adb");
+var AAPT_PATH = path.join(__dirname, "tools/aapt");
 
 
 function AdbCmd(device) {
