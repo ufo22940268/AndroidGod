@@ -10,6 +10,16 @@ var Device = require('./device');
 var ADB_PATH = "tools/adb"
 var AAPT_PATH = "tools/aapt"
 
+
+function AdbCmd(device) {
+    this.cmdPre = ADB_PATH + " -s " + device.name + " ";
+}
+
+AdbCmd.prototype.exec = function (cmd) {
+    console.log("cmd = " + this.cmdPre + cmd)
+    return childProcess.execAsync(this.cmdPre + cmd);
+}
+
 module.exports = {
 
     parseDevice: function (line) {
@@ -31,8 +41,26 @@ module.exports = {
                     return /\w+/.test(line);
                 });
                 return Promise.resolve(lines.slice(1)).map(self.parseDevice);
-            }
-        )
+            }).map(function (device) {
+                return self.getProductModel(device)
+                    .then(function (model) {
+                        device.model = model;
+                        return device;
+                    });
+            })
+    },
+
+    getProductModel: function (device) {
+        return new AdbCmd(device).exec('shell getprop ro.product.model')
+            .then(function (stdout) {
+                stdout = stdout.toString();
+                if (stdout.indexOf('-') != -1) {
+                    console.log("in")
+                    stdout = stdout.toString().match(/(.*?)-/)[1]
+                }
+                stdout = stdout.replace(',', '');
+                return stdout.toString().trim();
+            })
     },
 
     buildInstallCmd: function (device, apkFile) {
@@ -73,7 +101,7 @@ module.exports = {
                 try {
                     info.package = /package="(.+?)"/.exec(stdout)[1];
                     info.activity = /[\s\S]+activity[\s\S]+?android:name.+?"(.+?)"[\s\S]+?android.intent.category.LAUNCHER/g.exec(stdout)[1];
-                } catch(e) {
+                } catch (e) {
                     throw new Error('aapt parse err ' + e);
                 }
 

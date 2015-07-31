@@ -23,13 +23,17 @@ app.on('window-all-closed', function() {
 app.on('ready', function() {
 
     // Create the browser window.
-    mainWindow = new BrowserWindow({width: 800, height: 600});
-    mainWindow.setBounds({
+    var options = {
+        title: 'AndroidGod',
         x: 0,
         y: 0,
         width: 800,
         height: 600
-    })
+    };
+    var webPref = {}
+    webPref['overlay-scrollbars'] = true;
+    options['web-preferences'] = webPref;
+    mainWindow = new BrowserWindow(options);
 
     new MainOperation().register();
 

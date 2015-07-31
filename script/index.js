@@ -42,7 +42,7 @@ var onHandleDevices = function (devices) {
     leftRactive.set({
         devices: devices.map(function (t, index) {
             return {
-                deviceName: t.name,
+                deviceName: t.model,
                 imageSrc: t.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png",
                 active: activeIndex == index
             }
