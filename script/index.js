@@ -2,6 +2,9 @@ var ipc = require('ipc')
 var adb = require('./adb');
 
 
+var onlineDevices = [];
+var activeIndex = 0;
+
 ipc.send('getDevices')
 
 var leftRactive = new Ractive({
@@ -34,17 +37,29 @@ ipc.on('installApk-reply', function (result) {
 })
 
 var onHandleDevices = function (devices) {
+    onlineDevices = devices;
     var leftPart = document.getElementsByClassName('left-part').item(0);
-    var activeIndex = 0;
     leftRactive.set({
-            devices: devices.map(function (t, index) {
-                return {
-                    deviceName: t.name,
-                    imageSrc: t.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png",
-                    active: activeIndex == index
-                }
-            })
-        });
+        devices: devices.map(function (t, index) {
+            return {
+                deviceName: t.name,
+                imageSrc: t.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png",
+                active: activeIndex == index
+            }
+        })
+    });
+
+
+    leftRactive.on('selectDevice', function (event) {
+        activeIndex = event.index.i;
+        leftRactive.findAll('.device-item').forEach(function (node, i) {
+            if (i == event.index.i) {
+                node.classList.add('active');
+            } else {
+                node.classList.remove('active');
+            }
+        })
+    })
 
     var dropArea = document.getElementById("drop-area");
 

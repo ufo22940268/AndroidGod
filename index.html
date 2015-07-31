@@ -13,7 +13,7 @@
 
     <script id="left-template" type="text/ractive">
         {{#devices:i}}
-        <div class="device-item {{#if active}}active{{/if}}">
+        <div class="device-item {{#if active}}active{{/if}}" on-click="selectDevice">
             <div class="device-img-container">
                 <img src="{{imageSrc}}" class="device-img">
             </div>
@@ -30,7 +30,6 @@
     </script>
 
     <script src="script/index.js"></script>
-
 </div>
 </body>
 </html>
