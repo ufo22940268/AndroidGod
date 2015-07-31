@@ -13,5 +13,5 @@ Because we have so many android devices. if we want to install apk or take a scr
     
 #TODO
 
-- [] Add more functions
-- [] Package for windows and linux.
+- [ ] Add more functions
+- [ ] Package for windows and linux.
