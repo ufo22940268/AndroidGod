@@ -7,7 +7,7 @@ var prevDeviceOutput = "";
 function updateDevice(event) {
     adb.getDevices().then(function (devices) {
         event.sender.send("getDevices-reply", devices);
-    })
+    });
 }
 
 exports.updateInterval = function (event) {

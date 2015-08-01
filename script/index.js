@@ -39,33 +39,32 @@ function setDevice(device) {
 
 var onHandleDevices = function (devices) {
     onlineDevices = devices;
+
+    if (onlineDevices) {
+        activeIndex = onlineDevices.length - 1;
+        setDevice(onlineDevices[activeIndex]);
+    }
+
     var leftPart = document.getElementsByClassName('left-part').item(0);
     leftRactive.set({
         devices: devices.map(function (t, index) {
             return {
                 deviceName: t.model,
                 imageSrc: t.type == 'emulator' ? "img/ic_desktop_mac_white_48dp_2x.png" : "img/ic_phone_android_white_48dp_2x.png",
-                active: activeIndex == index
-            }
+                active: index === activeIndex
+            };
         })
     });
 
-    if (onlineDevices) {
-        console.log("onlineDevices = " + onlineDevices)
-        setDevice(onlineDevices[0]);
-    }
-
     leftRactive.on('selectDevice', function (event) {
         activeIndex = event.index.i;
-        leftRactive.findAll('.device-item').forEach(function (node, i) {
-            if (i == event.index.i) {
-                node.classList.add('active');
-            } else {
-                node.classList.remove('active');
-            }
-            setDevice(onlineDevices[i]);
+        setDevice(onlineDevices[activeIndex]);
+        var devices = this.get('devices');
+        devices.forEach(function (e, i) {
+            e.active = i === activeIndex;
         })
-    })
+        this.update();
+    });
 
     var dropArea = document.getElementById("drop-area");
 
