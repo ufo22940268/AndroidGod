@@ -51,6 +51,7 @@ var onHandleDevices = function (devices) {
     });
 
     if (onlineDevices) {
+        console.log("onlineDevices = " + onlineDevices)
         setDevice(onlineDevices[0]);
     }
 
@@ -101,6 +102,8 @@ function requestInstall(device, file) {
 }
 
 function registerIpc() {
+    ipc.send('updateDeviceByInterval');
+
     ipc.on('getDevices-reply', function (devices) {
         onHandleDevices(devices);
     });

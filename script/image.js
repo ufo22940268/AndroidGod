@@ -18,6 +18,5 @@ leftRactive.on('reloadImage', function (e) {
 });
 
 ipc.on('reloadScreenShot-reply', function () {
-    console.log("adfadf = ")
     location.reload();
 });

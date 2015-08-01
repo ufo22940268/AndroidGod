@@ -27,6 +27,10 @@ module.exports = {
         return new Device(/([\w|\.|:]+)/.exec(line)[1]);
     },
 
+    getAdbDeviceOutput: function () {
+        return childProcess.execAsync('adb devices');
+    },
+
     getDevices: function () {
         var self = this;
         return new Promise(function (fullfill, reject) {

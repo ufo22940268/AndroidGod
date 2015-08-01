@@ -8,6 +8,7 @@ var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var path = require('path');
 var ImageWindow = require('./imageWindow');
+var updateDevice = require('./deviceUpdater');
 
 var TMP_PATH = 'tmp';
 
@@ -23,6 +24,7 @@ Operation.prototype.register = function () {
             event.sender.send("getDevices-reply", devices);
         })
     });
+
 
     ipc.on('installApk', function (event, device, apkFile) {
         adb.install(device, apkFile)
@@ -59,6 +61,11 @@ Operation.prototype.register = function () {
             .then(function () {
                 event.sender.send('reloadScreenShot-reply');
             })
+    });
+
+    ipc.on('updateDeviceByInterval', function (event) {
+        console.log("event = " + event)
+        updateDevice.updateInterval(event);
     })
 };
 
