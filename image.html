@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/index.css"/>
+</head>
+<body>
+
+<script src="bower_components/ractive/ractive.min.js"></script>
+
+<script id="template" type="text/ractive">
+        <img id="screenshot-image" src="screenshot/screen.png" alt=""/>
+
+		<div class="image-actions">
+			<div class="btn btn-save-image" on-click="saveImage">Save</div>
+			<div class="btn btn-reload-image" on-click="reloadImage">Reload</div>
+        </div>
+
+</script>
+
+<script src="script/image.js"></script>
+</body>
+</html>

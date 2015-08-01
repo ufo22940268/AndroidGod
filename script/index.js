@@ -15,26 +15,27 @@ var leftRactive = new Ractive({
 var rightRactive = new Ractive({
     el: '#right-part',
     template: '#right-template'
-})
+});
+
+function getActiveDevice() {
+    return onlineDevices[activeIndex];
+}
+
+rightRactive.on('screenshot', function (e) {
+    ipc.send('takeScreenShot', getActiveDevice());
+
+});
 
 
 var dropAreaLabel = document.getElementById("drop-area-label");
-ipc.on('getDevices-reply', function (devices) {
-    onHandleDevices(devices);
-})
 
 function initDropArea() {
     dropAreaLabel.innerHTML = "Drop to install";
 }
-ipc.on('installApk-reply', function (result) {
-    console.log("result = " + JSON.stringify(result))
-    if (result.err) {
-        alert(result.err);
-        initDropArea();
-    } else {
-        dropAreaLabel.innerText = "Success";
-    }
-})
+
+function setDevice(device) {
+    ipc.send('selectDevice', device);
+}
 
 var onHandleDevices = function (devices) {
     onlineDevices = devices;
@@ -49,6 +50,9 @@ var onHandleDevices = function (devices) {
         })
     });
 
+    if (onlineDevices) {
+        setDevice(onlineDevices[0]);
+    }
 
     leftRactive.on('selectDevice', function (event) {
         activeIndex = event.index.i;
@@ -58,6 +62,7 @@ var onHandleDevices = function (devices) {
             } else {
                 node.classList.remove('active');
             }
+            setDevice(onlineDevices[i]);
         })
     })
 
@@ -94,3 +99,24 @@ function requestInstall(device, file) {
     };
     reader.readAsArrayBuffer(file);
 }
+
+function registerIpc() {
+    ipc.on('getDevices-reply', function (devices) {
+        onHandleDevices(devices);
+    });
+
+    ipc.on('installApk-reply', function (result) {
+        if (result.err) {
+            alert(result.err);
+            initDropArea();
+        } else {
+            dropAreaLabel.innerText = "Success";
+        }
+    });
+
+    ipc.on('takeScreenShot-reply', function (imgPath) {
+        console.log("imgPath = " + imgPath);
+    });
+}
+
+registerIpc();

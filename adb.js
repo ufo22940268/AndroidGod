@@ -108,5 +108,19 @@ module.exports = {
 
                 return info;
             })
+    },
+
+    screenshot: function (device) {
+        var adbCmd = new AdbCmd(device);
+        return adbCmd.exec('shell screencap -p /sdcard/screen.png')
+            .then(function () {
+                return adbCmd.exec('pull /sdcard/screen.png screenshot/')
+            })
+            .then(function () {
+                return adbCmd.exec('shell rm /sdcard/screen.png');
+            })
+            .then(function () {
+                return 'screenshot/.screen.png';
+            })
     }
-}
+};

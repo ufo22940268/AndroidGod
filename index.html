@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
 
 </head>
 <body>
@@ -25,7 +25,12 @@
 
     <script id="right-template" type="text/ractive">
         <div id="drop-area">
+			<span></span>
             <span id="drop-area-label">Drop to install</span>
+        </div>
+
+        <div id='action-container' on-click='screenshot'>
+            <button class="btn btn-action">Screenshot</button>
         </div>
     </script>
 
